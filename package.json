@@ -1,5 +1,5 @@
 {
-  "name": "quadratics-solve",
+  "name": "quadratic-solve",
   "version": "0.0.1",
   "description": "Solves quadratic functions given in standard form",
   "main": "index.js",
