@@ -6,7 +6,7 @@ const ask = rl.question;
 
 function choise() {
     let eq = ask("Enter equation: ");
-    eq = eq.replace(' ', '');
+    eq = eq.replace(/ /g, '');
 
     //First check if input matches standard form regex, \/
     //Regex standard form, [+/-num]x^2[+/-num]x[+/-num]
@@ -27,9 +27,10 @@ function choise() {
     }
 
     let a = eq.match(/^-?\d*x\^2/).toString().subS(-3);
-        if(a == "") a = 1;
+        if(a == "") a = 1; else if(a == "-") a = -1;
     let b = eq.match(/[+-]\d*x(?!\^2)/).toString().subS(-1);
         if(b[0] == "+") b = b.substring(1);
+        if(b == "") b = 1; else if(b == "-") b = -1;
     let c = eq.match(/[+-]\d+$/).toString();
         if(c[0] == "+") c = c.substring(1);
 
@@ -42,11 +43,11 @@ function choise() {
 
     let solution = "";
 
-    if(plusAns == minusAns) solution = plusAns; else {
-        if(plusAns != NaN) solution = chalk.bold(plusAns);
-        if(minusAns != NaN && plusAns != NaN) solution += ` & ${chalk.bold(minusAns)}`;
-        if(minusAns != NaN && plusAns == NaN) solution = chalk.bold(minusAns);
-        if(plusAns == NaN && minusAns == NaN) solution = chalk.bold("none");
+    if(plusAns == minusAns) solution = plusAns.round(3); else {
+        if(!isNaN(plusAns)) solution = chalk.bold(plusAns.round(3));
+        if(!isNaN(minusAns) && !isNaN(plusAns)) solution += ` & ${chalk.bold(minusAns.round(3))}`;
+        if(!isNaN(minusAns) && isNaN(plusAns)) solution = chalk.bold(minusAns.round(3));
+        if(isNaN(plusAns) && isNaN(minusAns)) solution = chalk.bold("none");
     }
 
     console.log("Real roots: " + solution);
@@ -79,5 +80,9 @@ String.prototype.subS = function(fir, sec) {
 		return '';
 	}
 };
+
+Number.prototype.round = function(place) {
+    return Math.round((this + Number.EPSILON) * (10**place)) / (10**place); //From stackoverflow lol
+}
 
 choise();
