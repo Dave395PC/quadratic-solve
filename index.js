@@ -32,10 +32,6 @@ function choise() {
         if(b[0] == "+") b = b.substring(1);
     let c = eq.match(/[+-]\d+$/).toString();
         if(c[0] == "+") c = c.substring(1);
-    
-    console.log("a: " + chalk.bold(a));
-    console.log("b: " + chalk.bold(b));
-    console.log("c: " + chalk.bold(c));
 
     //Eval, one negative one positive for +/-
     let plusAns = ((b*-1)+Math.sqrt((b*b)-(4*a*c))) / (2*a);
